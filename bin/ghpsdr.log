@@ -1,0 +1,2 @@
+/home/joeradtke/ghpsdr/bin
+./ghpsdr: error while loading shared libraries: libwdsp.so: cannot open shared object file: No such file or directory
