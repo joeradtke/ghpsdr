@@ -223,7 +223,7 @@ void ozy_send_buffer() {
                                 output_buffer[4]=driveLevel;
 				if(micBoost)
 				{
-				  output_buffer[5]=0x01;//set the micboost bit
+				  output_buffer[5]=0x01;
 				} else {
                                   output_buffer[5]=control_out[2];
 				}

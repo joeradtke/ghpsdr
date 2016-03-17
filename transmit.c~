@@ -79,26 +79,37 @@ void moxButtonCallback(GtkWidget* widget,gpointer data) {
     } else {
         state=1;
     }    
+ fprintf(stderr,"fuck you\n");
+ fprintf(stderr,"state=%d\n",state);
     //vfoTransmit(state);
     int *vfoState=malloc(sizeof(int));
     *vfoState=state;
     g_idle_add(vfoTransmit,(gpointer)vfoState);
     setMOX(state);
-
-    if(!fullDuplex) { 
-        if(mox) { 
+    fprintf(stderr,"mox=%d\n",mox);
+    fprintf(stderr,"fullDuplex=%d\n",fullDuplex);
+	    fprintf(stderr,"rfgain %f\n",rfGain);
+	    fprintf(stderr,"micgain %f\n",micGain);
+    if(!fullDuplex) { fprintf(stderr,"fuck you before 2nd if\n");
+        if(mox) { fprintf(stderr,"fuck you after 2nd if\n");
 #ifdef DTTSP
             SetThreadProcessingMode(0,0);  // MUTE
             //SetRXOutputGain(0,0,0.0);
 	   
 #endif
-        } else { 
+		SetChannelState(0,0,0);
+		SetChannelState(1,0,0);
+		SetChannelState(8,1,0);
+        } else { fprintf(stderr,"fuck you after else beginning\n");
 #ifdef DTTSP
 
             SetThreadProcessingMode(0,2);  // RUN
             //SetRXOutputGain(0,0,volume/100.0);
 
 #endif
+		SetChannelState(8,0,0);
+		SetChannelState(0,1,0);
+		//SetChannelState(1,1,0);
 
         } 
     } 

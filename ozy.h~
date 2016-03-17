@@ -68,8 +68,6 @@ extern "C" {
 #define LT2208_DITHER_ON          0x08
 #define LT2208_RANDOM_OFF         0x00
 #define LT2208_RANDOM_ON          0x10
-#define MIC_BOOST_OFF		  0x00
-#define MIC_BOOST_ON	  	  0x01
 
 int penelopeForwardPower;
 int alexForwardPower;
