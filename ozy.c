@@ -216,7 +216,7 @@ void ozy_send_buffer() {
                                 output_buffer[4]=control_out[1];
                                 output_buffer[5]=control_out[2];
                                 output_buffer[6]=control_out[3];
-                                output_buffer[7]=control_out[4];
+       				output_buffer[7]=control_out[4];
                                 break;
                             case 2:
                                 output_buffer[3]=0x12;

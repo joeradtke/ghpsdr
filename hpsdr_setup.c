@@ -68,7 +68,8 @@ GtkWidget* hpsdrFullDuplex;
 
 GtkWidget* pennyLaneWidget;
 
-GtkWidget* micBoostWidget;
+GtkWidget* micBoostOn;
+GtkWidget* micBoostOff;
 
 void speed48ButtonCallback(GtkWidget* widget,gpointer data) {
     if(GTK_TOGGLE_BUTTON(widget)->active) {
@@ -165,12 +166,16 @@ void pennyLaneButtonCallback(GtkWidget* widget,gpointer data) {
     }
 }
 
-void micBoostButtonCallback(GtkWidget* widget,gpointer data) {
+void micBoostButtonOnCallback(GtkWidget* widget,gpointer data) {
     if(GTK_TOGGLE_BUTTON(widget)->active) {
         setMicBoost(1);
-    } else {
+    } 
+}
+
+void micBoostButtonOffCallback(GtkWidget* widget,gpointer data) {
+    if(GTK_TOGGLE_BUTTON(widget)->active) {
         setMicBoost(0);
-    }
+    } 
 }
 
 /* --------------------------------------------------------------------------*/
@@ -376,16 +381,20 @@ GtkWidget* hpsdrSetupUI() {
     gtk_widget_show(box);
     gtk_box_pack_start(GTK_BOX(hpsdrPage),box,FALSE,FALSE,2);
 
-    box=gtk_hbox_new(FALSE,3);
-    label=gtk_label_new("MicBoost:					");
+    box=gtk_hbox_new(FALSE,5);
+    label=gtk_label_new("Mic Boost:							");
     gtk_widget_show(label);
     gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,2);
-    micBoostWidget=gtk_check_button_new_with_label("MicBoost");
-    gtk_widget_show(micBoostWidget);
-    gtk_box_pack_start(GTK_BOX(box),micBoostWidget,FALSE,FALSE,2);
-    g_signal_connect(G_OBJECT(micBoostWidget),"clicked",G_CALLBACK(micBoostButtonCallback),NULL);
+    micBoostOff=gtk_radio_button_new_with_label(NULL,"Off	");
+    gtk_widget_show(micBoostOff);
+    gtk_box_pack_start(GTK_BOX(box),micBoostOff,FALSE,FALSE,2);
+    g_signal_connect(G_OBJECT(micBoostOff),"clicked",G_CALLBACK(micBoostButtonOffCallback),NULL);
+    micBoostOn=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(micBoostOff),"On ");
+    gtk_widget_show(micBoostOn);
+    gtk_box_pack_start(GTK_BOX(box),micBoostOn,FALSE,FALSE,2);
+    g_signal_connect(G_OBJECT(micBoostOn),"clicked",G_CALLBACK(micBoostButtonOnCallback),NULL);
     gtk_widget_show(box);
-        gtk_box_pack_start(GTK_BOX(hpsdrPage),box,FALSE,FALSE,2);
+    gtk_box_pack_start(GTK_BOX(hpsdrPage),box,FALSE,FALSE,2);
 
     if(!ozy_use_metis() || d->device==DEVICE_METIS) {
         box=gtk_hbox_new(FALSE,3);
@@ -451,6 +460,15 @@ GtkWidget* hpsdrSetupUI() {
             break;
     }
 
+    switch(micBoost) {
+        case 0:
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(micBoostOff),TRUE);
+            break;
+        case 1:
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(micBoostOn),TRUE);
+            break;
+    }
+
     switch(fullDuplex) {
         case 0:
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hpsdrHalfDuplex),TRUE);
@@ -459,9 +477,6 @@ GtkWidget* hpsdrSetupUI() {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hpsdrFullDuplex),TRUE);
             break;
     }
-
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(micBoostWidget),micBoost);
-
 
 
     if(!ozy_use_metis() || d->device==DEVICE_METIS) {
