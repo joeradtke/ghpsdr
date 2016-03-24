@@ -16,6 +16,7 @@
 
 #include <gtk/gtk.h>
 
+#include "cw.h"
 #include "ozy.h"
 #include "ozy_buffers.h"
 #include "ozy_ringbuffer.h"
@@ -201,6 +202,18 @@ void setDriveLevelChanged(int level) {
     driveLevelChanged=1;
 }
 
+void setCwinternal(int state) {
+    cwinternal=state;
+}
+
+void setCwkeyermode(int state) {
+    cwkeyermode=state;
+}
+
+void setCwKeysreversed(int state) {
+    cwkeysreversed=state;
+}
+
 //char* ozy_get_interface() {
 //    return interface;
 //}
@@ -223,9 +236,9 @@ void ozy_send_buffer() {
                                 output_buffer[4]=driveLevel;
 				if(micBoost)
 				{
-				  output_buffer[5]=0x03;//set the micboost bit
+				  output_buffer[5]=0x01;//set the micboost bit
 				} else {
-                                  output_buffer[5]=0x02;
+                                  output_buffer[5]=control_out[2];
 				}
                                 output_buffer[6]=control_out[3];
                                 output_buffer[7]=control_out[4];
@@ -264,7 +277,7 @@ void ozy_send_buffer() {
                                     if(xmit || tuning || (mode!=modeCWU && mode!=modeCWL)) {
                                         output_buffer[4]=0x00;
                                     } else {
-                                        output_buffer[4]=0x01;
+                                       output_buffer[4]=0x01;
                                     }
                                 } else {
                                     output_buffer[4]=0x00;

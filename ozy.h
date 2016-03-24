@@ -133,8 +133,9 @@ char* ozy_get_interface();
 void setPennyLane(int);
 void setDriveLevelChanged(int);
 void setMicBoost(int);
-
-
+void setCwinternal(int state);
+void setCwkeyermode(int state);
+void setCwKeysreversed(int state);
 /* --------------------------------------------------------------------------*/
 /** 
 * @brief Initialize the Ozy interface 

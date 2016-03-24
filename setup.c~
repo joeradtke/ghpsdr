@@ -79,7 +79,7 @@ void ghpsdr_setup() {
         gtk_widget_show(page);
 
 
-        page=cwSetupUI();
+        page=alexSetupUI();
         gtk_notebook_append_page(GTK_NOTEBOOK(setupNotebook),page,gtk_label_new("CW"));
         gtk_widget_show(page);
 
