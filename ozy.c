@@ -200,6 +200,7 @@ void setMicBoost(int state) {
 void setDriveLevelChanged(int level) {
     driveLevel=level;
     driveLevelChanged=1;
+    fprintf(stderr,"  Drive level changed: %d\n",driveLevel);
 }
 
 void setCwinternal(int state) {
